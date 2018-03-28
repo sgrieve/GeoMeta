@@ -6,6 +6,9 @@ import rasterio.features
 from rasterio import mask
 
 
+__all__ = ["get_meta", "apply_meta"]
+
+
 def get_meta(datafile, dataset_doi=None, publication_doi=None,
              outputfile=None):
     """
@@ -66,7 +69,7 @@ def get_meta(datafile, dataset_doi=None, publication_doi=None,
         return json.dumps(metadata, indent=2)
 
 
-def from_metadata(json_file, data_file):
+def apply_meta(json_file, data_file):
     """
     """
     dataset = rasterio.open(data_file)
