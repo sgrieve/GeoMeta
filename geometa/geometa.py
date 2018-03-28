@@ -23,7 +23,7 @@ def get_meta(datafile, source_info=None, outputfile=None):
     metadata = {
         'georeferencing': {
             'spatial extent': geo_info,
-            'EPSG': 26917}
+            'EPSG': 26917},
         'driver': data.driver,
         'width': data.width,
         'height': data.height,
