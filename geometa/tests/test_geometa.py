@@ -1,5 +1,5 @@
-from geometa import get_meta, apply_meta
 import rasterio
+from .. import get_meta, apply_meta
 
 
 def test_get_meta():
