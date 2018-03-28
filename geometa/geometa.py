@@ -1,3 +1,5 @@
+import os
+import sys
 import json
 import os
 
@@ -120,3 +122,40 @@ def get_epsg_code(data):
                 "The dataset's CRS does not correspond to an EPSG code.")
     else:
         return int(data.crs.to_string().split(":")[-1])
+
+
+def main(datafile, inputmeta=None, **kwargs):
+    """
+    Generating geospatial metadata from Digital Elevation Model files and
+    applying geospatial metadata to generate model files.
+
+    Parameters
+    ----------
+    datafile : str
+        Filename for data file. Format should be supported by the
+        rasterio packgage.
+    outputfile : str
+        Name of output file.
+    inputmeta : str, optional
+        Filename for metadata json file. If provided the metadata will be
+        applied to the data file to generate the dataset.
+    dataset_doi : str, optional
+        DOI for the original raw data.
+    publication_doi : str, optional
+        Reference publication for this dataset.
+
+    """
+    if input_meta is None:
+        # I am a Researcher who wants to create a GeoMeta file for my dataset
+        get_meta(data_file, **kwargs)
+    else:
+        # I have been given a GeoMeta file and want to recreate
+        apply_meta(input_meta, data_file)
+
+
+if __name__ == "__main__":
+    if 'help' in str(sys.argv[1:]):
+        print("Usage of {0}:".format(os.path.basename(sys.argv[0])))
+        print(main.__doc__)
+    else:
+        main(*sys.argv[1:])
