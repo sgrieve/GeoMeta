@@ -1,3 +1,6 @@
+import geometa
+
+
 # This function checks if a valid filename has been provided
 def check_invalid_filename(filename):
 
@@ -94,3 +97,5 @@ def info_from_user():
 if __name__ == "__main__":
     # Get required information from the user.
     filename, doi_dataset, doi_pub = info_from_user()
+    metadata = geometa.get_meta(filename, doi_dataset, doi_pub)
+    print(metadata)
