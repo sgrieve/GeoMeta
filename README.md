@@ -15,7 +15,17 @@ In geoscience research, spatial data stored as two dimensional arrays, known as 
 pip install -r requirements.txt
 ```
 
-notes here on gdal/rasterio alpha versions...
+For users who may already have a gdal install this may cause issues with rasterio. This can be solved through reninstalling an up to date gdal using:
+```
+conda install -c conda-forge gdal
+```
+
+For some users, gdal may still not work in some cases, but the latest version of `rasterio` does not depend on gdal, it can be installed with:
+
+```
+pip install git+https://github.com/mapbox/rasterio.git
+```
+
 
 ## Usage examples
 
@@ -56,3 +66,5 @@ This code is MIT licensed.
 The next step for this project is to build out the code and tests to handle more edge cases, where bad data is provided, to attempt to steer the user to correct their data.
 
 The eventual goal for the project is to host the tool online as a service, where researchers can create GeoMeta files without needing to install anything locally on their machines.
+
+A potentially useful tool to add to the online service would be a google maps widget that automatically displays the location where the data was collected.
