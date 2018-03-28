@@ -1,5 +1,6 @@
 import json
 
+import numpy as np
 import rasterio
 import rasterio.warp
 import rasterio.features
@@ -48,7 +49,13 @@ def get_meta(datafile, dataset_doi=None, publication_doi=None,
         'dtypes': data.dtypes,
         'crs': data.crs.to_string(),
         'transform': data.transform,
-        'nodata': data.nodata,
+        # Sometimes the nodata value is set to be outside the limits of float32,
+        # which can cause problems when reusing the metadata. In such a case,
+        # we should set it to an acceptable value, eg -9999.
+        'nodata':
+            data.nodata
+            if np.finfo(np.float32).min <= data.nodata <= np.finfo(np.float32).max
+            else -9999,
         'bounding_box': data.bounds,
         'source info': {}
     }
