@@ -95,10 +95,11 @@ def apply_meta(json_file, data_file, out_file=None):
     if not out_file:
         out_file = "out_"+os.path.basename(data_file)
     outfile = rasterio.open(
-                out_file, 'w', driver='GTiff',
-                width=459, height=366, count=1, dtype='float32',
-                crs='+init=epsg:26917',
-                transform=[276853.0, 1.0, 0.0, 3882026.0, 0.0, -1.0],
+                out_file, 'w', driver=json_meta['driver'],
+                width=json_meta['width'], height=json_meta['height'],
+                count=json_meta['count'], dtype=json_meta['dtypes'][0],
+                crs=json_meta['crs'],
+                transform=json_meta['transform'],
                 nodata=-9999)
     outfile.write(maskout_data[0][0], 1)
     outfile.close()
