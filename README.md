@@ -15,7 +15,12 @@ In geoscience research, spatial data stored as two dimensional arrays, known as 
 pip install -r requirements.txt
 ```
 
-notes here on gdal/rasterio alpha versions...
+For users who may already have a gdal install this may cause issues with rasterio. This can be solved through reninstalling an up to date gdal using:
+```
+conda install -c conda-forge gdal
+```
+
+notes here on rasterio alpha versions...
 
 ## Usage examples
 
