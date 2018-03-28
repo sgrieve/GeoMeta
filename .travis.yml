@@ -1,0 +1,63 @@
+language: python
+
+python:
+    - "3.5"
+    - "3.6"
+
+os:
+    - linux
+
+# Setting sudo to false opts in to Travis-CI container-based builds.
+sudo: false
+
+# The apt packages below are needed for sphinx builds. A full list of packages
+# that can be included can be found here:
+#
+# https://github.com/travis-ci/apt-package-whitelist/blob/master/ubuntu-precise
+
+addons:
+    apt:
+        packages:
+
+stage: Comprehensive tests
+
+
+stages:
+ - name: Initial tests
+ - name: Comprehensiv tests
+
+env:
+    global:
+        # The following versions are the 'default' for tests, unless
+        # overridden underneath. They are defined here in order to save having
+        # to repeat them for all configurations.
+        - PYTHON_VERSION=3.6
+        - NUMPY_VERSION=stable
+        - MAIN_CMD='pytest'
+        - CONDA_DEPENDENCIES='rasterio pytest'
+        - PIP_DEPENDENCIES=''
+        - SETUP_CMD=''
+
+    matrix:
+        - SETUP_CMD='geometa'
+
+
+matrix:
+    include:
+        - os: linux
+          env: NUMPY_VERSION=1.12 SETUP_CMD='geometa'
+
+        - os: linux
+          env: NUMPY_VERSION=1.13 SETUP_CMD='geometa'
+
+        # Do a PEP8 test with flake8
+        - os: linux
+          env: MAIN_CMD='flake8 geometa --count'
+          stage: Initial tests
+
+install:
+    - git clone --depth 1 git://github.com/astropy/ci-helpers.git
+    - source ci-helpers/travis/setup_conda.sh
+
+script:
+   - $MAIN_CMD $SETUP_CMD
