@@ -1,9 +1,10 @@
 import json
-
 import numpy as np
 import rasterio
 import rasterio.warp
 import rasterio.features
+from rasterio import mask
+from shapely.geometry import shape
 
 
 def get_meta(datafile, dataset_doi=None, publication_doi=None,
@@ -73,8 +74,18 @@ def get_meta(datafile, dataset_doi=None, publication_doi=None,
         return json.dumps(metadata, indent=2)
 
 
-def from_metadata(datafile, metadata):
-    pass
+def from_metadata(json_file, data_file):
+    """
+    """
+    dataset = rasterio.open(data_file)
+    json_meta = json.load(open(json_file))
+    s = json_meta["georeferencing"]["spatial extent"]
+
+    # This will throw for non-overlapping datasets - catch it!
+    maskout_data = mask.mask(dataset,[s],crop=True)
+    outfile = rasterio.open("outfile.tiff",'w',driver='GTiff',width=459,height=366,count=1,dtype='float32',crs='+init=epsg:26917',transform=[276853.0, 1.0, 0.0, 3882026.0, 0.0, -1.0],nodata=-9999)
+    outfile.write(maskout_data[0][0],1)
+    outfile.close()
 
 
 class GeometaException(RuntimeError):
