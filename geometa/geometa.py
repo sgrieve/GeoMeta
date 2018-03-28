@@ -54,7 +54,7 @@ def get_meta(datafile, dataset_doi=None, publication_doi=None,
     }
 
     if dataset_doi is not None:
-        metadata['source info']['dataset DOI'] = source_info
+        metadata['source info']['dataset DOI'] = dataset_doi
 
     if publication_doi is not None:
         metadata['source info']['publication DOI'] = publication_doi
