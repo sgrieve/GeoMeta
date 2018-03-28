@@ -40,7 +40,7 @@ def get_meta(datafile, dataset_doi=None, publication_doi=None,
     metadata = {
         'georeferencing': {
             'spatial extent': geo_info,
-            'EPSG': data.crs.to_string()},
+            'EPSG': get_epsg_code(data)},
         'driver': data.driver,
         'width': data.width,
         'height': data.height,
@@ -68,3 +68,20 @@ def get_meta(datafile, dataset_doi=None, publication_doi=None,
 
 def from_metadata(datafile, metadata):
     pass
+
+
+class GeometaException(RuntimeError):
+    """An error incurred during processing using GeoMeta."""
+
+
+def get_epsg_code(data):
+    """Extract the EPSG code (as an integer) from a RasterIO dataset.
+
+    Currently assumes that there is only a single CRS specified. Will throw
+    an exception if the code cannot be extracted.
+    """
+    if not data.crs.is_epsg_code:
+        raise GeometaException(
+                "The dataset's CRS does not correspond to an EPSG code.")
+    else:
+        return int(data.crs.to_string().split(":")[-1])
