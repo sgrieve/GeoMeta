@@ -71,13 +71,23 @@ def get_meta(datafile, dataset_doi=None, publication_doi=None,
 
 def apply_meta(json_file, data_file):
     """
+    Generating Digital Elevation Model file that is a subset of the
+    original data, based on the input metadata.
+
+    Parameters
+    ----------
+    json_file : str
+        Filename for metadata file. Should be in json format.
+    data_file : string
+        Filename for input data file, corresponding to the whole area.
     """
-    dataset = rasterio.open(data_file)
     json_meta = json.load(open(json_file))
     s = json_meta["georeferencing"]["spatial extent"]
 
-    # This will throw for non-overlapping datasets - catch it!
-    maskout_data = mask.mask(dataset, [s], crop=True)
+    with rasterio.open(data_file) as dataset:
+        # This will throw for non-overlapping datasets - catch it!
+        maskout_data = mask.mask(dataset, [s], crop=True)
+
     outfile = rasterio.open(
                 "outfile.tiff", 'w', driver='GTiff',
                 width=459, height=366, count=1, dtype='float32',
