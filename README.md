@@ -61,3 +61,5 @@ This code is MIT licensed.
 The next step for this project is to build out the code and tests to handle more edge cases, where bad data is provided, to attempt to steer the user to correct their data.
 
 The eventual goal for the project is to host the tool online as a service, where researchers can create GeoMeta files without needing to install anything locally on their machines.
+
+A potentially useful tool to add to the online service would be a google maps widget that automatically displays the location where the data was collected.
