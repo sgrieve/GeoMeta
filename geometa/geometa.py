@@ -12,8 +12,8 @@ from rasterio import mask
 __all__ = ["get_meta", "apply_meta"]
 
 
-def get_meta(datafile, dataset_doi=None, publication_doi=None,
-             outputfile=None):
+def get_meta(datafile, outputfile=None, dataset_doi=None,
+             publication_doi=None):
     """
     Generating geospatial metadata from Digital Elevation Model files.
 
@@ -22,12 +22,12 @@ def get_meta(datafile, dataset_doi=None, publication_doi=None,
     datafile : str
         Filename for data file. Format should be supported by the
         rasterio packgage.
+    outputfile : str
+        Name of output file to dump the metadata information
     dataset_doi : str
         DOI for the original raw data
     publication_doi : str
         Reference publication for this dataset
-    outputfile : str
-        Name of output file to dump the metadata information
 
 
     """
@@ -72,17 +72,17 @@ def get_meta(datafile, dataset_doi=None, publication_doi=None,
         return json.dumps(metadata, indent=2)
 
 
-def apply_meta(json_file, data_file, out_file=None):
+def apply_meta(data_file, json_file, out_file=None):
     """
     Generating Digital Elevation Model file that is a subset of the
     original data, based on the input metadata.
 
     Parameters
     ----------
-    json_file : str
-        Filename for metadata file. Should be in json format.
     data_file : str
         Filename for input data file, corresponding to the whole area.
+    json_file : str
+        Filename for metadata file. Should be in json format.
     out_file : str
         Filename for output data file. If not there, a name is created
         from the input file.
@@ -124,33 +124,36 @@ def get_epsg_code(data):
         return int(data.crs.to_string().split(":")[-1])
 
 
-def main(datafile, inputmeta=None, **kwargs):
+def main(mode, *args):
     """
     Generating geospatial metadata from Digital Elevation Model files and
     applying geospatial metadata to generate model files.
 
     Parameters
     ----------
+    mode : 'extract' or 'apply'
+        Mode of the script to run.
     datafile : str
         Filename for data file. Format should be supported by the
         rasterio packgage.
-    outputfile : str
-        Name of output file.
     inputmeta : str, optional
         Filename for metadata json file. If provided the metadata will be
         applied to the data file to generate the dataset.
+    outputfile : str, optional
+        Name of output file.
     dataset_doi : str, optional
         DOI for the original raw data.
     publication_doi : str, optional
         Reference publication for this dataset.
 
     """
-    if input_meta is None:
+    print(mode)
+    if mode == 'extract':
         # I am a Researcher who wants to create a GeoMeta file for my dataset
-        get_meta(data_file, **kwargs)
+        get_meta(*args)
     else:
         # I have been given a GeoMeta file and want to recreate
-        apply_meta(input_meta, data_file)
+        apply_meta(*args)
 
 
 if __name__ == "__main__":
@@ -158,4 +161,8 @@ if __name__ == "__main__":
         print("Usage of {0}:".format(os.path.basename(sys.argv[0])))
         print(main.__doc__)
     else:
-        main(*sys.argv[1:])
+        try:
+            main(*sys.argv[1:])
+        except Exception as e:
+            print(main.__doc__)
+            raise e
