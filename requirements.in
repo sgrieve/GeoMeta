@@ -1,0 +1,6 @@
+fiona
+rasterio
+shapely
+pytest
+flake8
+pyyaml
