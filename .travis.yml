@@ -19,6 +19,12 @@ addons:
     apt:
         packages:
 
+stage: Comprehensive tests
+
+
+stages:
+ - name: Initial tests
+ - name: Comprehensiv tests
 
 env:
     global:
@@ -27,11 +33,10 @@ env:
         # to repeat them for all configurations.
         - PYTHON_VERSION=3.6
         - NUMPY_VERSION=stable
-        - MAIN_CMD='py.test'
+        - MAIN_CMD='pytest'
         - CONDA_DEPENDENCIES='rasterio pytest'
         - PIP_DEPENDENCIES=''
         - SETUP_CMD=''
-        - EVENT_TYPE='pull_request push'
 
     matrix:
         - SETUP_CMD='geometa'
@@ -39,19 +44,16 @@ env:
 
 matrix:
     include:
-        # Try all python versions and Numpy versions. Since we can assume that
-        # the Numpy developers have taken care of testing Numpy with different
-        # versions of Python, we can vary Python and Numpy versions at the same
-        # time.
         - os: linux
-          env: NUMPY_VERSION=1.12
+          env: NUMPY_VERSION=1.12 SETUP_CMD='geometa'
 
         - os: linux
-          env: NUMPY_VERSION=1.13
+          env: NUMPY_VERSION=1.13 SETUP_CMD='geometa'
 
         # Do a PEP8 test with flake8
         - os: linux
           env: MAIN_CMD='flake8 geometa --count'
+          stage: Initial tests
 
 install:
     - git clone --depth 1 git://github.com/astropy/ci-helpers.git
