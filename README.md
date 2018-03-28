@@ -20,7 +20,12 @@ For users who may already have a gdal install this may cause issues with rasteri
 conda install -c conda-forge gdal
 ```
 
-notes here on rasterio alpha versions...
+For some users, gdal may still not work in some cases, but the latest version of `rasterio` does not depend on gdal, it can be installed with:
+
+```
+pip install git+https://github.com/mapbox/rasterio.git
+```
+
 
 ## Usage examples
 
