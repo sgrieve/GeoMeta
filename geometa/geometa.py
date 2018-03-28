@@ -1,7 +1,6 @@
 import os
 import sys
 import json
-import os
 
 import rasterio
 import rasterio.warp
