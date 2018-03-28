@@ -1,0 +1,15 @@
+{
+  "georeferencing": {
+    "spatial extent": {
+      "type": "Polygon",
+      "coordinates":[
+          [ [100.0, 0.0], [101.0, 0.0], [101.0, 1.0], [100.0, 1.0], [100.0, 0.0] ]
+      ]
+    },
+    "EPSG": 26917
+  },
+  "source info": {
+    "dataset doi": "10.5069/G9HT2M76 ",
+    "doi": "doi.org/10.1002/esp.3884"
+  }
+}
