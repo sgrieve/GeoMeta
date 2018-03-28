@@ -5,7 +5,9 @@ import rasterio.warp
 import rasterio.features
 from rasterio import mask
 
+
 __all__ = ["get_meta", "apply_meta"]
+
 
 def get_meta(datafile, dataset_doi=None, publication_doi=None,
              outputfile=None):
